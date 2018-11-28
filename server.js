@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const compression = require('compression');
 const mongoose = require("mongoose");
 const logger = require("morgan");
-const dotenv = require("dotenv").config({ path: './config' });
+//const dotenv = require("dotenv").config({ path: './config' });
 const path = require('path');
 
 // Initialize the Express App
@@ -24,7 +24,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 mongoose.connect(serverConfig.mongoURL, (error) => {
     if (error) {
-        console.error('Please make sure Mongodb is installed and running!'); // eslint-disable-line no-console
+        console.error('Please make sure Mongodb is correctly configured!'); // eslint-disable-line no-console
         throw error;
     }
 });
@@ -56,4 +56,4 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // Check that the server is functioning
-app.listen(serverConfig.port, () => console.log(`Listening 👂 on port ${serverConfig.port}`));
+app.listen(serverConfig.port, () => console.log(`👂 Listening  on port ${serverConfig.port}`));
