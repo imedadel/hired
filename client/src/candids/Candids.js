@@ -10,7 +10,8 @@ class Candids extends Component {
         super(props);
         this.state = {
             candids: [],
-            error: null
+            error: null,
+            fullName: ''
         };
         this.pollInterval = null;
     }
@@ -39,14 +40,34 @@ class Candids extends Component {
             },
                 (error) => {
                     this.setState({
-                        isLoaded: true,
                         error
                     });
                 })
     }
 
+    onChangeInfo = (e) => {
+        const newState = { ...this.state };
+        newState[e.target.name] = e.target.value;
+        this.setState(newState);
+    }
+
+    submitNewCandid = (e) => {
+        e.preventDefault();
+        const { fullName } = this.state;
+        if (!fullName) return;
+        fetch('api/candids', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ fullName }),
+        })
+            .then(res => res.json())
+            .then((res) => {
+            this.setState({ fullName: '' });
+        });
+    }
+
     render() {
-        const { candids } = this.state;
+        const { candids, fullName } = this.state;
         return (
             <div>
                 {
@@ -56,6 +77,15 @@ class Candids extends Component {
                         </p>
                     ))
                 }
+                <form onSubmit={ this.submitNewCandid } >
+                    <input
+                        type="text"
+                        name="fullName"
+                        value={ fullName }
+                        onChange={ this.onChangeInfo }
+                    />
+                    <button type="submit">Submit</button>
+                </form>
             </div>
         );
     }
