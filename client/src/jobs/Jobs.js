@@ -33,14 +33,12 @@ class Jobs extends Component {
                         <Card
                             style={{width: 300}}
                             cover={<img alt="example"
-                                        src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"/>}
-                            actions={[<Icon type="setting"/>, <Icon type="edit"/>, <Icon type="ellipsis"/>]}
+                                        src="./undraw_programming_2svr.png"/>}
+                            actions={[<Icon type="edit"/>, <Icon type="delete"/>]}
                         >
                             <Meta
-                                avatar={<Avatar
-                                    src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"/>}
-                                title="Card title"
-                                description="This is the description"
+                                title="Full Stack Developer"
+                                description="React, Express, Node, MongoDB"
                             />
                         </Card>
                     </Col>
