@@ -51,6 +51,39 @@ class Candids extends Component {
         this.setState(newState);
     }
 
+    onUpdateCandidateInfo = (cuid) => {
+        const oldCandidateInfo = this.state.candids.find(c => c.cuid === cuid);
+        if (!oldCandidateInfo) return;
+        this.setState({
+            fullName: oldCandidateInfo.fullName,
+            updateId: cuid
+        });
+    }
+
+    onDeleteCandid = (cuid) => {
+        const i = this.state.candids.findIndex(c => c.cuid === cuid);
+        const candids = [
+            ...this.state.candids.slice(0, i),
+            ...this.state.candids.slice(i + 1),
+        ];
+        this.setState({ candids });
+        fetch(`api/candids/${cuid}`, { method: 'DELETE' })
+            .then(res => res.json()).then((res) => {
+            if (!res.success) this.setState({ error: res.error });
+        });
+    }
+
+    submitCandidate= (e) => {
+        e.preventDefault();
+        const { fullName, updateId } = this.state;
+        // if (!author || !text) return;
+        if (updateId) {
+            this.submitUpdatedCandid();
+        } else {
+            this.submitNewCandid();
+        }
+    }
+
     submitNewCandid = (e) => {
         e.preventDefault();
         const { fullName } = this.state;
@@ -66,6 +99,17 @@ class Candids extends Component {
         });
     }
 
+    submitUpdatedCandid = () => {
+        const { fullName, updateId } = this.state;
+        fetch(`/api/candids/${updateId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ fullName }),
+        }).then(res => res.json()).then((res) => {
+            this.setState({ fullName: '', updateId: null });
+        });
+    }
+
     render() {
         const { candids, fullName } = this.state;
         return (
@@ -74,6 +118,8 @@ class Candids extends Component {
                     candids.map(candid => (
                         <p key={candid.cuid}>
                             {candid.fullName} {candid.dateAdded}
+                            <a onClick={() => { this.onUpdateCandidateInfo(candid.cuid); }}>update</a>
+                            <a onClick={() => { this.onDeleteCandid(candid.cuid); }}>delete</a>
                         </p>
                     ))
                 }
