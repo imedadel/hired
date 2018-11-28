@@ -1,18 +1,24 @@
 {
-    "name": "dashboard",
-    "version": "1.0.0",
-    "scripts": {
-      "client": "cd client && yarn start",
-      "server": "nodemon server.js",
-      "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
-      "start": "node server.js",
-      "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
-    },
-    "dependencies": {
-      "body-parser": "^1.18.3",
-      "express": "^4.16.4"
-    },
-    "devDependencies": {
-      "concurrently": "^4.1.0"
-    }
+  "name": "dashboard",
+  "version": "1.0.0",
+  "scripts": {
+    "client": "cd client && yarn start",
+    "server": "node server.js",
+    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
+    "start": "node server.js",
+    "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "compression": "^1.7.3",
+    "cuid": "^2.1.4",
+    "dotenv": "^6.1.0",
+    "express": "^4.16.4",
+    "mongoose": "^5.3.14",
+    "morgan": "^1.9.1",
+    "sanitize-html": "^1.19.1"
+  },
+  "devDependencies": {
+    "concurrently": "^4.1.0"
   }
+}
