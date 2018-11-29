@@ -11,6 +11,7 @@ const app = express();
 
 // Import required modules
 const candids = require('./routes/candid.routes');
+const jobs = require('./routes/job.routes');
 const serverConfig = require('./config/config');
 
 // Set native promises as mongoose promise
@@ -28,7 +29,7 @@ mongoose.connect(serverConfig.mongoURL, (error) => {
         throw error;
     }
 });
-app.use('/api', candids);
+app.use('/api', [candids, jobs]);
 
 // API Calls
 
