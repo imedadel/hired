@@ -8,6 +8,7 @@ import Icon from '@material-ui/core/Icon';
 import Typography from "@material-ui/core/Typography/Typography";
 import Grid from '@material-ui/core/Grid';
 import JobsCards from "./JobsCards";
+import AddJob from "./AddJob";
 
 const styles = theme => ({
     appBarSpacer: theme.mixins.toolbar,
@@ -70,9 +71,7 @@ class Jobs extends Component {
 
                     </Grid>
                 </div>
-                <Fab color="primary" aria-label="Add" className={classes.fab}>
-                    <AddIcon />
-                </Fab>
+                <AddJob/>
             </main>
         );
     }
