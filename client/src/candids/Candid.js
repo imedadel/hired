@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const Candid = props => (
     <div className="singleCandid">
-        <img alt="user_image" className="userImage" src={`https://picsum.photos/70?random=${props.id}`} />
+        <img alt="user_image" className="userImage" src='https://picsum.photos/200/300/?random' />
         <div className="textContent">
             <div className="singleCommentContent">
                 <h3>{props.fullName}</h3>

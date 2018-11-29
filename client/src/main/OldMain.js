@@ -3,7 +3,7 @@ import {Switch, Route, Link} from 'react-router-dom';
 import {Layout, Menu, Icon} from 'antd';
 import "antd/dist/antd.css";
 import Home from '../home/Home';
-import Candids from '../candids/Candids';
+import OldCandids from '../candids/OldCandids';
 import Jobs from '../jobs/Jobs';
 import Explore from '../explore/Explore';
 import Stats from '../stats/Stats';
@@ -79,7 +79,7 @@ class OldMain extends Component {
                     </Header>
                         <Switch>
                             <Route exact path='/' component={Home}/>
-                            <Route path='/candids' component={Candids}/>
+                            <Route path='/candids' component={OldCandids}/>
                             <Route path='/jobs' component={Jobs}/>
                             <Route path='/explore' component={Explore}/>
                             <Route path='/stats' component={Stats}/>
