@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import axios from 'axios';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {withStyles} from '@material-ui/core/styles';
@@ -38,37 +39,47 @@ const styles = theme => ({
 class Jobs extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            jobs: [],
+            error: null,
+        };
+    }
+
+    componentDidMount() {
+        axios.get('api/jobs')
+            .then(result => this.setState({
+                jobs: result.data.jobs,
+            }))
+            .catch(error => this.setState({
+                error,
+            }));
+        console.log(this.state.jobs);
     }
 
 
     render() {
         const {classes} = this.props;
+        const { jobs } = this.state;
         return (
             <main className={classes.content}>
                 <div className={classes.appBarSpacer}/>
                 <Typography variant="h4" gutterBottom component="h2">
                     Job Board
                 </Typography>
+
                 <div className={classes.tableContainer}>
                     <Grid
                         container
                         direction="row"
                         justify="space-around"
                         alignItems="center"
-                        spacing='8'
+                        spacing={8}
                     >
-                        <JobsCards title="React Developer" description="ReactJS, ExpressJS, NodeJS, MongoDB"
-                                           link="/candids"/>
-                        <JobsCards title="Graphic Designer"
-                                           description="Photoshop, Illustrator, inVision Studio"
-                                           link="/jobs"/>
-                        <JobsCards title="Data Scientist"
-                                           description="Machine Learning, Tensorflow, ..."
-                                           link="/stats"/>
-                        <JobsCards title="Copy Writer"
-                                           description="Markdown, Word, English Language"
-                                           link="/explore"/>
-
+                        {
+                            jobs.map(job => (
+                                <JobsCards key={job.cuid} title={job.role} description={job.description} />
+                            ))
+                        }
                     </Grid>
                 </div>
                 <AddJob/>

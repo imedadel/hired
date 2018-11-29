@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
@@ -21,7 +20,7 @@ const styles = {
 };
 
 function JobsCards(props) {
-    const { classes, title, image, description, link } = props;
+    const { classes, title, image, description } = props;
     return (
         <Grid item>
             <Card className={classes.card}>
@@ -40,10 +39,10 @@ function JobsCards(props) {
                         </Typography>
                     </CardContent>
                     <CardActions>
-                        <Button size="medium" color="primary"  component={Link} to={link}>
+                        <Button size="medium" color="primary">
                             Edit
                         </Button>
-                        <Button size="medium" color="primary"  component={Link} to={link}>
+                        <Button size="medium" color="primary">
                             Delete
                         </Button>
                     </CardActions>
