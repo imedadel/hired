@@ -11,6 +11,7 @@ const jobSchema = new Schema(
         gender: String,
         technologies: {type: [String]},
         skills: {type: [String]},
+        benefits: {type: [String]},
         minScore: Number,
         questions: [String],
         jobType: String,

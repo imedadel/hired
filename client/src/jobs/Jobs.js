@@ -46,6 +46,27 @@ class Jobs extends Component {
     }
 
     componentDidMount() {
+        this.getJobs();
+        if(!this.pollInterval) {
+            this.pollInterval = setInterval(this.getJobs, 30000);
+        }
+
+        // axios.get('api/jobs')
+        //     .then(result => this.setState({
+        //         jobs: result.data.jobs,
+        //     }))
+        //     .catch(error => this.setState({
+        //         error,
+        //     }));
+        // console.log(this.state.jobs);
+    }
+
+    componentWillUnmount() {
+        if (this.pollInterval) clearInterval(this.pollInterval);
+        this.pollInterval = null;
+    }
+
+    getJobs = () => {
         axios.get('api/jobs')
             .then(result => this.setState({
                 jobs: result.data.jobs,
