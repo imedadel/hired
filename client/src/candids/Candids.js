@@ -14,6 +14,7 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import Typography from "@material-ui/core/Typography/Typography";
+import axios from "axios";
 
 const actionsStyles = theme => ({
     root: {
@@ -139,7 +140,32 @@ class Candids extends React.Component {
         ].sort((a, b) => (a.calories < b.calories ? -1 : 1)),
         page: 0,
         rowsPerPage: 10,
+        error: null,
+        candids: [],
     };
+
+    componentDidMount() {
+        this.getCandids();
+        if (!this.pollInterval) {
+            this.pollInterval = setInterval(this.getCandids, 10000);
+        }
+    }
+
+    componentWillUnmount() {
+        if (this.pollInterval) clearInterval(this.pollInterval);
+        this.pollInterval = null;
+    }
+
+    getCandids = () => {
+        axios.get('api/candids')
+            .then(result => this.setState({
+                candids: [...result.data.candids],
+            }))
+            .catch(error => this.setState({
+                error,
+            }));
+        console.log(this.state.candids);
+    }
 
     handleChangePage = (event, page) => {
         this.setState({ page });
@@ -151,8 +177,8 @@ class Candids extends React.Component {
 
     render() {
         const { classes } = this.props;
-        const { rows, rowsPerPage, page } = this.state;
-        const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+        const { rows, rowsPerPage, page, candids } = this.state;
+        const emptyRows = rowsPerPage - Math.min(rowsPerPage, candids.length - page * rowsPerPage);
 
         return (
             <main className={classes.content}>
@@ -165,16 +191,16 @@ class Candids extends React.Component {
                 <div className={classes.tableWrapper}>
                     <Table className={classes.table}>
                         <TableBody>
-                            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
+                            {candids.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(candid => {
                                 return (
-                                    <TableRow key={row.id} hover>
+                                    <TableRow key={candid.cuid} hover>
                                         <TableCell component="th" scope="row">
-                                            {row.name}
+                                            {candid.fullName}
                                         </TableCell>
-                                        <TableCell numeric>{row.calories}</TableCell>
-                                        <TableCell numeric>{row.fat}</TableCell>
-                                        <TableCell numeric>{row.fat}</TableCell>
-                                        <TableCell numeric>{row.fat}</TableCell>
+                                        <TableCell numeric>{candid.phoneNumber}</TableCell>
+                                        <TableCell numeric>{candid.matchedTech}</TableCell>
+                                        <TableCell numeric>{candid.socialScore}</TableCell>
+                                        <TableCell numeric>{candid.score}</TableCell>
                                     </TableRow>
                                 );
                             })}
@@ -189,7 +215,7 @@ class Candids extends React.Component {
                                 <TablePagination
                                     rowsPerPageOptions={[5, 10, 25]}
                                     colSpan={5}
-                                    count={rows.length}
+                                    count={candids.length}
                                     rowsPerPage={rowsPerPage}
                                     page={page}
                                     onChangePage={this.handleChangePage}
