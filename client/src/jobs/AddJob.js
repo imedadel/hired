@@ -84,6 +84,22 @@ class AddJob extends React.Component {
         event.preventDefault();
         const { newJob } = this.state;
 
+        if(newJob.technologies) {
+            newJob.technologies = newJob.technologies.split(',');
+        }
+        if(newJob.skills) {
+            newJob.skills = newJob.skills.split(',');
+        }
+        if(newJob.questions) {
+            newJob.questions = newJob.questions.split(',');
+        }
+        if(newJob.benefits) {
+            newJob.benefits = newJob.benefits.split(',');
+        }
+        if(newJob.qualifications) {
+            newJob.qualifications = newJob.qualifications.split(',');
+        }
+
         // data.technologies = data.technologies ? data.technologies = data.technologies.split(','):data.technologies;
         // data.set('skills', data.get('skills').split(','));
         // data.set('questions', data.get('questions').split(','));
