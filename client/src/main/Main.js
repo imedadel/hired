@@ -1,94 +1,189 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {Switch, Route, Link} from 'react-router-dom';
-import {Layout, Menu, Icon} from 'antd';
-import "antd/dist/antd.css";
-import Home from '../home/Home';
-import Candids from '../candids/Candids';
-import Jobs from '../jobs/Jobs';
-import Explore from '../explore/Explore';
-import Stats from '../stats/Stats';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
+import { withStyles } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Drawer from '@material-ui/core/Drawer';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import List from '@material-ui/core/List';
+import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
+import IconButton from '@material-ui/core/IconButton';
+import Badge from '@material-ui/core/Badge';
+import MenuIcon from '@material-ui/icons/Menu';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import { mainListItems, secondaryListItems } from './listItems';
 
-const {Header, Sider, Content} = Layout;
+import Home from "../home/Home";
+import Candids from "../candids/Candids";
+import Jobs from "../jobs/Jobs";
+import Explore from "../explore/Explore";
+import Stats from "../stats/Stats";
 
-class Main extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            collapsed: true,
-        };
-    }
+const drawerWidth = 240;
 
-    toggle = () => {
-        this.setState({
-            collapsed: !this.state.collapsed,
-        });
-    }
+const styles = theme => ({
+    root: {
+        display: 'flex',
+    },
+    toolbar: {
+        paddingRight: 24, // keep right padding when drawer closed
+    },
+    toolbarIcon: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+        padding: '0 8px',
+        ...theme.mixins.toolbar,
+    },
+    appBar: {
+        zIndex: theme.zIndex.drawer + 1,
+        transition: theme.transitions.create(['width', 'margin'], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+    },
+    appBarShift: {
+        marginLeft: drawerWidth,
+        width: `calc(100% - ${drawerWidth}px)`,
+        transition: theme.transitions.create(['width', 'margin'], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+    },
+    menuButton: {
+        marginLeft: 12,
+        marginRight: 36,
+    },
+    menuButtonHidden: {
+        display: 'none',
+    },
+    title: {
+        flexGrow: 1,
+    },
+    drawerPaper: {
+        position: 'relative',
+        whiteSpace: 'nowrap',
+        width: drawerWidth,
+        transition: theme.transitions.create('width', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+    },
+    drawerPaperClose: {
+        overflowX: 'hidden',
+        transition: theme.transitions.create('width', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+        width: theme.spacing.unit * 7,
+        [theme.breakpoints.up('sm')]: {
+            width: theme.spacing.unit * 9,
+        },
+    },
+    appBarSpacer: theme.mixins.toolbar,
+    content: {
+        flexGrow: 1,
+        padding: theme.spacing.unit * 3,
+        height: '100vh',
+        overflow: 'auto',
+    },
+    chartContainer: {
+        marginLeft: -22,
+    },
+    tableContainer: {
+        height: 320,
+    },
+    h5: {
+        marginBottom: theme.spacing.unit * 2,
+    },
+});
 
+class Dashboard extends React.Component {
+    state = {
+        open: true,
+    };
+
+    handleDrawerOpen = () => {
+        this.setState({ open: true });
+    };
+
+    handleDrawerClose = () => {
+        this.setState({ open: false });
+    };
 
     render() {
-        return (
-            <Layout className="jobs-layout">
-                <Sider
-                    trigger={null}
-                    collapsible
-                    collapsed={this.state.collapsed}
-                >
-                    <div className="logo">
-                        Dashboard
-                    </div>
-                    <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-                        <Menu.Item key="1">
-                            <Link to="/">
-                            <Icon type="home"/>
-                            <span>Home</span>
-                            </Link>
-                        </Menu.Item>
-                        <Menu.Item key="2">
-                            <Link to="/candids">
-                            <Icon type="team"/>
-                            <span>Candidates</span>
-                            </Link>
-                        </Menu.Item>
-                        <Menu.Item key="3">
-                            <Link to="/jobs">
-                            <Icon type="folder"/>
-                            <span>Jobs</span>
-                            </Link>
-                        </Menu.Item>
-                        <Menu.Item key="4">
-                            <Link to="/stats">
-                                <Icon type="line-chart"/>
-                                <span>Statistics</span>
-                            </Link>
-                        </Menu.Item>
-                        <Menu.Item key="5">
-                            <Link to="/explore">
-                                <Icon type="github"/>
-                                <span>Explore</span>
-                            </Link>
-                        </Menu.Item>
-                    </Menu>
-                </Sider>
-                <Layout>
-                    <Header style={{background: '#fff', padding: 0}}>
-                        <Icon
-                            className="trigger"
-                            type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
-                            onClick={this.toggle}
-                        />
-                    </Header>
-                        <Switch>
-                            <Route exact path='/' component={Home}/>
-                            <Route path='/candids' component={Candids}/>
-                            <Route path='/jobs' component={Jobs}/>
-                            <Route path='/explore' component={Explore}/>
-                            <Route path='/stats' component={Stats}/>
-                        </Switch>
+        const { classes } = this.props;
 
-                </Layout>
-            </Layout>
+        return (
+            <div className={classes.root}>
+                <CssBaseline />
+                <AppBar
+                    position="absolute"
+                    className={classNames(classes.appBar, this.state.open && classes.appBarShift)}
+                >
+                    <Toolbar disableGutters={!this.state.open} className={classes.toolbar}>
+                        <IconButton
+                            color="inherit"
+                            aria-label="Open drawer"
+                            onClick={this.handleDrawerOpen}
+                            className={classNames(
+                                classes.menuButton,
+                                this.state.open && classes.menuButtonHidden,
+                            )}
+                        >
+                            <MenuIcon />
+                        </IconButton>
+                        <Typography
+                            component="h1"
+                            variant="h6"
+                            color="inherit"
+                            noWrap
+                            className={classes.title}
+                        >
+                            Dashboard
+                        </Typography>
+                        <IconButton color="inherit">
+                            <Badge badgeContent={4} color="secondary">
+                                <NotificationsIcon />
+                            </Badge>
+                        </IconButton>
+                    </Toolbar>
+                </AppBar>
+                <Drawer
+                    variant="permanent"
+                    classes={{
+                        paper: classNames(classes.drawerPaper, !this.state.open && classes.drawerPaperClose),
+                    }}
+                    open={this.state.open}
+                >
+                    <div className={classes.toolbarIcon}>
+                        <IconButton onClick={this.handleDrawerClose}>
+                            <ChevronLeftIcon />
+                        </IconButton>
+                    </div>
+                    <Divider />
+                    <List>{mainListItems}</List>
+                    <Divider />
+                    {/*<List>{secondaryListItems}</List>*/}
+                </Drawer>
+                <Switch>
+                    <Route exact path='/' component={Home}/>
+                    <Route path='/candids' component={Candids}/>
+                    <Route path='/jobs' component={Jobs}/>
+                    <Route path='/explore' component={Explore}/>
+                    <Route path='/stats' component={Stats}/>
+                </Switch>
+            </div>
         );
     }
 }
 
-export default Main;
+Dashboard.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(Dashboard);

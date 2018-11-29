@@ -42,7 +42,7 @@ class App extends Component {
   render() {
     return (
         <Switch>
-            <Route component={Login} />
+            <Route path='/login' component={Login} />
             <Route component={Main} />
         </Switch>
       // <div className="App">
