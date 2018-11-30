@@ -19,6 +19,7 @@ import { mainListItems, secondaryListItems } from './listItems';
 
 import Home from "../home/Home";
 import Candids from "../candids/Candids";
+import CandidDetails from "../candids/CandidDetails";
 import Jobs from "../jobs/Jobs";
 import Explore from "../explore/Explore";
 import Stats from "../stats/Stats";
@@ -172,7 +173,8 @@ class Dashboard extends React.Component {
                 </Drawer>
                 <Switch>
                     <Route exact path='/' component={Home}/>
-                    <Route path='/candids' component={Candids}/>
+                    <Route exact path='/candids' component={Candids}/>
+                    <Route path='/candids/:cuid' component={CandidDetails}/>
                     <Route path='/jobs' component={Jobs}/>
                     <Route path='/explore' component={Explore}/>
                     <Route path='/stats' component={Stats}/>

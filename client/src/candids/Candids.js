@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -7,6 +8,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
+import TableHead from '@material-ui/core/TableHead';
 import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
 import FirstPageIcon from '@material-ui/icons/FirstPage';
@@ -119,6 +121,9 @@ const styles = theme => ({
         overflow: 'auto',
     },
     appBarSpacer: theme.mixins.toolbar,
+    tableLink: {
+        textDecoration: 'none',
+    }
 });
 
 class Candids extends React.Component {
@@ -190,10 +195,19 @@ class Candids extends React.Component {
             <Paper className={classes.root}>
                 <div className={classes.tableWrapper}>
                     <Table className={classes.table}>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Full Name</TableCell>
+                                <TableCell numeric>Phone Number</TableCell>
+                                <TableCell numeric>Matched Tech</TableCell>
+                                <TableCell numeric>Social Score</TableCell>
+                                <TableCell numeric>Overall Score</TableCell>
+                            </TableRow>
+                        </TableHead>
                         <TableBody>
                             {candids.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(candid => {
                                 return (
-                                    <TableRow key={candid.cuid} hover>
+                                    <TableRow key={candid.cuid} hover className={classes.tableLink} component={Link} to={'/candids/'+candid.cuid}>
                                         <TableCell component="th" scope="row">
                                             {candid.fullName}
                                         </TableCell>
