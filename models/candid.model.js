@@ -18,6 +18,7 @@ const candidSchema = new Schema(
         phoneNumber: Number,
         email: String,
         gender: String,
+        wantedJob: String,
         socialScore: Number,
         socialLinks: [String],
         answers: [String],
